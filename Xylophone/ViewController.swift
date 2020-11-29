@@ -12,40 +12,28 @@ import AVFoundation
 class ViewController: UIViewController {
 
     // The question mark means that
-    var player: AVAudioPlayer?
-    
+    var player: AVAudioPlayer!
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
     // Interface Builder Actions (IB Actions):
     @IBAction func keyPressed(_ sender: UIButton) {
-        // NSLog("I got pressed");
-        // print("I got pressed")
-        playSound(fileName: "C")
-    }
-    
-    @IBAction func keyPressedD(_ sender: UIButton) {
-        playSound(fileName: "D")
-    }
-    
-    @IBAction func keyPressedE(_ sender: UIButton) {
-        playSound(fileName: "E")
-    }
-    
-    @IBAction func keyPressedGeneral(_ sender: UIButton) {
         // print(sender.titleLabel?.text)
         playSound(fileName: sender.currentTitle!)
     }
-    
-    
-    
-    
-    
-    
-    
+
+    @IBAction func keyPressedSimplified(_ sender: UIButton) {
+        // print(sender.titleLabel?.text)
+        playSoundSimplified(fileName: sender.currentTitle!)
+    }
+
+    // Other functions
     func playSound(fileName: String) {
-        guard let url = Bundle.main.url(forResource: fileName, withExtension: "wav") else { return }
+        guard let url = Bundle.main.url(forResource: fileName, withExtension: "wav") else {
+            return
+        }
 
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
@@ -57,7 +45,9 @@ class ViewController: UIViewController {
             /* iOS 10 and earlier require the following line:
             player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3) */
 
-            guard let player = player else { return }
+            guard let player = player else {
+                return
+            }
 
             player.play()
 
@@ -65,7 +55,12 @@ class ViewController: UIViewController {
             print(error.localizedDescription)
         }
     }
-    
+
+    func playSoundSimplified(fileName: String) {
+        let url = Bundle.main.url(forResource: fileName, withExtension: "wav")
+        player = try! AVAudioPlayer(contentsOf: url!)
+        player.play()
+    }
 
 }
 
